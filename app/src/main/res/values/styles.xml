@@ -19,7 +19,8 @@
     <style name="Font.Toolbar" />
     <style name="Font.Toolbar.Title">
         <item name="android:letterSpacing">0</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:lines">1</item>
         <item name="android:textColor">@android:color/white</item>
     </style>
 
