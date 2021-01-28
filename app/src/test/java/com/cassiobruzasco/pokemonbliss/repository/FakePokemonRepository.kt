@@ -38,8 +38,15 @@ class FakePokemonRepository : PokemonRepository {
                         TypeModel("grass")
                     )
                 ),
-                weight = 1
+                weight = 1,
+                stats = mutableListOf(
+                    StatsModel(0)
+                )
             )
         )
+    }
+
+    override suspend fun markAsFav(id: Int, body: FavoriteModel): Result<Unit> {
+        return Result.success(Unit)
     }
 }
