@@ -1,10 +1,12 @@
 package com.cassiobruzasco.pokemonbliss.view.fragment
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,11 +20,8 @@ import com.cassiobruzasco.pokemonbliss.databinding.FragmentPokemonDetailsBinding
 import com.cassiobruzasco.pokemonbliss.util.ViewUtil
 import com.cassiobruzasco.pokemonbliss.view.MainActivity
 import com.cassiobruzasco.pokemonbliss.view.fragment.adapter.PokemonDetailsRecyclerAdapter
-import com.cassiobruzasco.pokemonbliss.view.fragment.adapter.PokemonListRecyclerAdapter
 import com.cassiobruzasco.pokemonbliss.view.viewmodel.PokemonModel
 import com.cassiobruzasco.pokemonbliss.view.viewmodel.PokemonViewModel
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.item_pokemon_list_recycler.view.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import java.util.*
 
@@ -41,6 +40,12 @@ class PokemonDetailsFragment : Fragment() {
         mBinding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_pokemon_details,
             container, false
+        )
+
+
+        NavigationUI.setupActionBarWithNavController(
+            (activity as MainActivity),
+            findNavController()
         )
 
         return mBinding.root
@@ -67,7 +72,7 @@ class PokemonDetailsFragment : Fragment() {
                     pokemonData.types[1].type.name.capitalize(Locale.getDefault())
                 }"
             } else {
-                pokemonData.types[0].type.name
+                pokemonData.types[0].type.name.capitalize(Locale.getDefault())
             }
         }
 
@@ -79,6 +84,43 @@ class PokemonDetailsFragment : Fragment() {
         mBinding.type.text = getString(R.string.pokemon_details_fragment_type, pokemonType)
         mBinding.recycler.layoutManager = LinearLayoutManager(requireContext())
         mBinding.recycler.adapter = PokemonDetailsRecyclerAdapter(pokemonData?.moves!!)
+        mBinding.hpProgress.progress = pokemonData.stats[0].baseStat
+        mBinding.hpValue.text = pokemonData.stats[0].baseStat.toString()
+        mBinding.attackProgress.progress = pokemonData.stats[1].baseStat
+        mBinding.attackValue.text = pokemonData.stats[1].baseStat.toString()
+        mBinding.defenseProgress.progress = pokemonData.stats[2].baseStat
+        mBinding.defenseValue.text = pokemonData.stats[2].baseStat.toString()
+        mBinding.satkProgress.progress = pokemonData.stats[3].baseStat
+        mBinding.satkValue.text = pokemonData.stats[3].baseStat.toString()
+        mBinding.sdefProgress.progress = pokemonData.stats[4].baseStat
+        mBinding.sdefValue.text = pokemonData.stats[4].baseStat.toString()
+        mBinding.speedProgress.progress = pokemonData.stats[5].baseStat
+        mBinding.speedValue.text = pokemonData.stats[5].baseStat.toString()
+
+
+        val prefKey = "${BaseConfig.SHARED_PREF_FAV_KEY}_${pokemonData.id}"
+        val sharedPref = activity?.getSharedPreferences(prefKey, Context.MODE_PRIVATE) ?: return
+        var isFavorite = sharedPref.getBoolean(prefKey, false)
+        val image = if (isFavorite) R.drawable.ic_favorite else R.drawable.ic_favorite_empty
+        mBinding.fav.setImageResource(image)
+        mBinding.fav.setOnClickListener {
+            if (isFavorite) {
+                mBinding.fav.setImageResource(R.drawable.ic_favorite_empty)
+                with (sharedPref.edit()) {
+                    putBoolean(prefKey, false)
+                    apply()
+                }
+                isFavorite = false
+            } else {
+                mViewModel.saveFavorite(pokemonData.id, pokemonData.name)
+                mBinding.fav.setImageResource(R.drawable.ic_favorite)
+                with (sharedPref.edit()) {
+                    putBoolean(prefKey, true)
+                    apply()
+                }
+                isFavorite = true
+            }
+        }
     }
 
     private fun configureObservables() {
@@ -100,11 +142,11 @@ class PokemonDetailsFragment : Fragment() {
                 }
             }
             is PokemonModel.PokemonState.GenericError -> {
-                Snackbar.make(
-                    requireView(),
+                Toast.makeText(
+                    context,
                     getString(R.string.snack_bar_generic_error),
-                    Snackbar.LENGTH_LONG
-                )
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

@@ -8,60 +8,399 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="24dp"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Pokémon name details" />
-
-        <View
-            android:id="@+id/horizontal_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_margin="24dp"
-            android:background="@android:color/darker_gray"
-            app:layout_constraintTop_toBottomOf="@id/title" />
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_line"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:nestedScrollingEnabled="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_margin="24dp">
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="24dp">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/Title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="24dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Pokémon name details" />
+
+                <View
+                    android:id="@+id/horizontal_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_margin="24dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/title" />
 
                 <ImageView
                     android:id="@+id/icon"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="12dp"
                     tools:src="@drawable/ic_pokeballs"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@id/horizontal_line" />
+
+                <ImageView
+                    android:id="@+id/fav"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    tools:src="@drawable/ic_favorite_empty"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/title"
+                    app:layout_constraintTop_toTopOf="@id/title"
+                    app:layout_constraintBottom_toBottomOf="@id/title"/>
+
+                <TextView
+                    android:id="@+id/title_stats"
+                    style="@style/Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/icon"
+                    android:text="@string/pokemon_details_fragment_stats" />
+
+                <View
+                    android:id="@+id/horizontal_line_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/title_stats" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/hp_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/horizontal_line_2">
+
+                    <TextView
+                        android:id="@+id/hp_label"
+                        style="@style/Body"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/hp_progress"
+                        android:text="@string/pokemon_details_fragment_progress_bar_hp" />
+
+                    <ProgressBar
+                        android:id="@+id/hp_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:indeterminate="false"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:progress="200"
+                        android:max="250"
+                        android:progressDrawable="@drawable/progress_bar_hp"
+                        app:layout_constraintStart_toEndOf="@id/hp_label"
+                        app:layout_constraintTop_toTopOf="@id/hp_label"
+                        app:layout_constraintEnd_toStartOf="@id/hp_value"
+                        app:layout_constraintBottom_toBottomOf="@id/hp_label"/>
+
+                    <TextView
+                        android:id="@+id/hp_value"
+                        style="@style/Body"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        app:layout_constraintStart_toEndOf="@id/hp_progress"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="243" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/attack_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/hp_layout">
+
+                    <TextView
+                        android:id="@+id/attack_label"
+                        style="@style/Body"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/attack_progress"
+                        android:text="@string/pokemon_details_fragment_progress_bar_attack" />
+
+                    <ProgressBar
+                        android:id="@+id/attack_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:indeterminate="false"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:progress="134"
+                        android:max="200"
+                        android:progressDrawable="@drawable/progress_bar_attack"
+                        app:layout_constraintStart_toEndOf="@id/attack_label"
+                        app:layout_constraintTop_toTopOf="@id/attack_label"
+                        app:layout_constraintEnd_toStartOf="@id/attack_value"
+                        app:layout_constraintBottom_toBottomOf="@id/attack_label"/>
+
+                    <TextView
+                        android:id="@+id/attack_value"
+                        style="@style/Body"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        app:layout_constraintStart_toEndOf="@id/attack_progress"
+                        app:layout_constraintTop_toTopOf="@id/attack_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="145" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/defense_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/attack_layout">
+
+                    <TextView
+                        android:id="@+id/defense_label"
+                        style="@style/Body"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/defense_progress"
+                        android:text="@string/pokemon_details_fragment_progress_bar_defense" />
+
+                    <ProgressBar
+                        android:id="@+id/defense_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:indeterminate="false"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:progress="144"
+                        android:max="200"
+                        android:progressDrawable="@drawable/progress_bar_defense"
+                        app:layout_constraintStart_toEndOf="@id/defense_label"
+                        app:layout_constraintTop_toTopOf="@id/defense_label"
+                        app:layout_constraintEnd_toStartOf="@id/defense_value"
+                        app:layout_constraintBottom_toBottomOf="@id/defense_label"/>
+
+                    <TextView
+                        android:id="@+id/defense_value"
+                        style="@style/Body"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        app:layout_constraintStart_toEndOf="@id/defense_progress"
+                        app:layout_constraintTop_toTopOf="@id/defense_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="145" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/satk_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/defense_layout">
+
+                    <TextView
+                        android:id="@+id/satk_label"
+                        style="@style/Body"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/satk_progress"
+                        android:text="@string/pokemon_details_fragment_progress_bar_satk" />
+
+                    <ProgressBar
+                        android:id="@+id/satk_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:indeterminate="false"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:progress="144"
+                        android:max="200"
+                        android:progressDrawable="@drawable/progress_bar_satk"
+                        app:layout_constraintStart_toEndOf="@id/satk_label"
+                        app:layout_constraintTop_toTopOf="@id/satk_label"
+                        app:layout_constraintEnd_toStartOf="@id/satk_value"
+                        app:layout_constraintBottom_toBottomOf="@id/satk_label"/>
+
+                    <TextView
+                        android:id="@+id/satk_value"
+                        style="@style/Body"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        app:layout_constraintStart_toEndOf="@id/satk_progress"
+                        app:layout_constraintTop_toTopOf="@id/satk_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="145" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/sdef_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/satk_layout">
+
+                    <TextView
+                        android:id="@+id/sdef_label"
+                        style="@style/Body"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pokemon_details_fragment_progress_bar_sdef"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/sdef_progress"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ProgressBar
+                        android:id="@+id/sdef_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:indeterminate="false"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:progress="144"
+                        android:max="200"
+                        android:progressDrawable="@drawable/progress_bar_sdef"
+                        app:layout_constraintStart_toEndOf="@id/sdef_label"
+                        app:layout_constraintTop_toTopOf="@id/sdef_label"
+                        app:layout_constraintEnd_toStartOf="@id/sdef_value"
+                        app:layout_constraintBottom_toBottomOf="@id/sdef_label"/>
+
+                    <TextView
+                        android:id="@+id/sdef_value"
+                        style="@style/Body"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        app:layout_constraintStart_toEndOf="@id/sdef_progress"
+                        app:layout_constraintTop_toTopOf="@id/sdef_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="145" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/speed_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sdef_layout">
+
+                    <TextView
+                        android:id="@+id/speed_label"
+                        style="@style/Body"
+                        android:layout_width="80dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/speed_progress"
+                        android:text="@string/pokemon_details_fragment_progress_bar_speed" />
+
+                    <ProgressBar
+                        android:id="@+id/speed_progress"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:indeterminate="false"
+                        android:layout_width="0dp"
+                        android:layout_height="8dp"
+                        android:progress="144"
+                        android:max="200"
+                        android:progressDrawable="@drawable/progress_bar_speed"
+                        app:layout_constraintStart_toEndOf="@id/speed_label"
+                        app:layout_constraintTop_toTopOf="@id/speed_label"
+                        app:layout_constraintEnd_toStartOf="@id/speed_value"
+                        app:layout_constraintBottom_toBottomOf="@id/speed_label"/>
+
+                    <TextView
+                        android:id="@+id/speed_value"
+                        style="@style/Body"
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        app:layout_constraintStart_toEndOf="@id/speed_progress"
+                        app:layout_constraintTop_toTopOf="@id/speed_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="145" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/other_stats"
+                    style="@style/Title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="12dp"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/speed_layout"
+                    android:text="@string/pokemon_details_fragment_other_stats" />
+
+                <View
+                    android:id="@+id/horizontal_line_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/other_stats" />
 
                 <TextView
                     android:id="@+id/height"
                     style="@style/Body"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:gravity="start"
+                    android:layout_marginStart="24dp"
                     app:layout_constraintEnd_toStartOf="@id/weight"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon"
+                    app:layout_constraintTop_toBottomOf="@id/horizontal_line_3"
                     tools:text="Height: 55" />
 
                 <TextView
@@ -69,33 +408,38 @@
                     style="@style/Body"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="start"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/height"
-                    app:layout_constraintTop_toBottomOf="@id/icon"
+                    app:layout_constraintTop_toBottomOf="@id/horizontal_line_3"
                     tools:text="Weight: 66" />
 
                 <TextView
                     android:id="@+id/base_xp"
                     style="@style/Body"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="24dp"
+                    android:gravity="start"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/type"
                     app:layout_constraintTop_toBottomOf="@id/height"
                     tools:text="Experience: 77" />
 
                 <TextView
                     android:id="@+id/type"
                     style="@style/Body"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:gravity="center"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="24dp"
+                    android:gravity="start"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/base_xp"
+                    app:layout_constraintTop_toBottomOf="@id/height"
+                    app:layout_constraintEnd_toStartOf="@id/base_xp"
                     tools:text="Type: Poison" />
 
                 <TextView
@@ -103,20 +447,33 @@
                     style="@style/Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="12dp"
                     android:gravity="center"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/type"
-                    tools:text="@string/pokemon_details_fragment_moves" />
+                    android:text="@string/pokemon_details_fragment_moves" />
+
+                <View
+                    android:id="@+id/horizontal_line_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@android:color/darker_gray"
+                    app:layout_constraintTop_toBottomOf="@id/moves" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recycler"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="24dp"
+                    android:layout_marginEnd="24dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/moves"
+                    app:layout_constraintTop_toBottomOf="@id/horizontal_line_4"
                     android:layout_marginBottom="34dp"
                     tools:itemCount="8"
                     tools:listitem="@layout/item_pokemon_details_recycler" />

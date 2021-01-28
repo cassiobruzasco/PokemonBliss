@@ -1,16 +1,24 @@
 <resources>
     <string name="app_name">Pokemon Bliss</string>
     <!-- Pokemon List Fragment -->
-    <string name="pokemon_list_fragment_title">First generation list</string>
+    <string name="pokemon_list_fragment_title">First Generation Pokémon</string>
     <!-- Pokémon Details Fragment -->
     <string name="pokemon_details_fragment_pokemon_name">%s details</string>
-    <string name="pokemon_details_fragment_height">Height: %s</string>
-    <string name="pokemon_details_fragment_weight">Weight: %s</string>
-    <string name="pokemon_details_fragment_base_xp">Base Experience: %s</string>
+    <string name="pokemon_details_fragment_height">Height: %s dm</string>
+    <string name="pokemon_details_fragment_weight">Weight: %s hg</string>
+    <string name="pokemon_details_fragment_base_xp">Base Exp: %s/kill</string>
     <string name="pokemon_details_fragment_type">Type: %s</string>
     <string name="pokemon_details_fragment_moves">Move List</string>
     <string name="pokemon_details_fragment_learn_at">Learn at level: %s</string>
     <string name="pokemon_details_fragment_learn_from">Learns from: Egg</string>
+    <string name="pokemon_details_fragment_progress_bar_hp">HP</string>
+    <string name="pokemon_details_fragment_progress_bar_attack">Attack</string>
+    <string name="pokemon_details_fragment_progress_bar_defense">Defense</string>
+    <string name="pokemon_details_fragment_progress_bar_satk">S. Atk</string>
+    <string name="pokemon_details_fragment_progress_bar_sdef">S. Def</string>
+    <string name="pokemon_details_fragment_progress_bar_speed">Speed</string>
+    <string name="pokemon_details_fragment_stats">Stats</string>
+    <string name="pokemon_details_fragment_other_stats">Other stats</string>
 
     <!-- Response errors -->
     <string name="snack_bar_generic_error">Ops… A generic error. Check your connection with the internet and try again</string>

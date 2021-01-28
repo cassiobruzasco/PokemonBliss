@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,13 +17,12 @@ import com.cassiobruzasco.pokemonbliss.util.ViewUtil
 import com.cassiobruzasco.pokemonbliss.view.fragment.adapter.PokemonListRecyclerAdapter
 import com.cassiobruzasco.pokemonbliss.view.viewmodel.PokemonModel
 import com.cassiobruzasco.pokemonbliss.view.viewmodel.PokemonViewModel
-import com.google.android.material.snackbar.Snackbar
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class PokemonListFragment: Fragment() {
 
     companion object {
-        const val LIMIT = 151
+        const val FIRST_GEN = 151
     }
 
     private val mViewModel by sharedViewModel<PokemonViewModel>()
@@ -48,7 +48,7 @@ class PokemonListFragment: Fragment() {
 
         configureObservables()
         mViewModel.initialize()
-        mViewModel.getPokemonList(LIMIT)
+        mViewModel.getPokemonList(FIRST_GEN)
     }
 
     private fun configureComponents() {
@@ -80,7 +80,11 @@ class PokemonListFragment: Fragment() {
                 }
             }
             is PokemonModel.PokemonState.GenericError -> {
-                Snackbar.make(requireView(), getString(R.string.snack_bar_generic_error), Snackbar.LENGTH_LONG)
+                Toast.makeText(
+                    context,
+                    getString(R.string.snack_bar_generic_error),
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
