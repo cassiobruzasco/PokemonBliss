@@ -8,17 +8,29 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/title"
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search"
             style="@style/Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="24dp"
             android:gravity="center"
-            android:text="@string/pokemon_list_fragment_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/not_found"
+            style="@style/Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pokemon_list_fragment_not_found"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
@@ -30,7 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/search"
             tools:itemCount="8"
             tools:listitem="@layout/item_pokemon_list_recycler" />
 

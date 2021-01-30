@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.cassiobruzasco.pokemonbliss.data.api.GenericException
 import com.cassiobruzasco.pokemonbliss.util.MainCoroutineRule
 import com.cassiobruzasco.pokemonbliss.repository.FakePokemonRepository
+import com.cassiobruzasco.pokemonbliss.util.ViewUtil
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch

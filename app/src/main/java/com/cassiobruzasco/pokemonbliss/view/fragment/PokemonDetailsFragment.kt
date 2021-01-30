@@ -15,6 +15,7 @@ import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.cassiobruzasco.pokemonbliss.R
+import com.cassiobruzasco.pokemonbliss.data.PokemonDetailsResponse
 import com.cassiobruzasco.pokemonbliss.data.api.BaseConfig
 import com.cassiobruzasco.pokemonbliss.databinding.FragmentPokemonDetailsBinding
 import com.cassiobruzasco.pokemonbliss.util.ViewUtil
@@ -42,7 +43,6 @@ class PokemonDetailsFragment : Fragment() {
             container, false
         )
 
-
         NavigationUI.setupActionBarWithNavController(
             (activity as MainActivity),
             findNavController()
@@ -61,29 +61,32 @@ class PokemonDetailsFragment : Fragment() {
 
     private fun configureComponents() {
         val pokemonData = mViewModel.model.pokemonDetailsOb.value
+        pokemonData?.let { initializeValues(it) }
+        pokemonData?.let { configureFavorite(it) }
+        animateProgressBars()
+    }
+
+    private fun initializeValues(pokemonData: PokemonDetailsResponse) {
         Glide.with(requireContext())
             .asBitmap()
-            .load(BaseConfig.ICON_BASE_URL.plus(pokemonData?.id.toString().plus(".png")))
+            .load(BaseConfig.ICON_BASE_URL.plus(pokemonData.id.toString().plus(".png")))
             .into(mBinding.icon)
-        var pokemonType = ""
-        if (pokemonData?.types != null) {
-            pokemonType = if (pokemonData.types.size > 1) {
-                "${pokemonData.types[0].type.name.capitalize(Locale.getDefault())}/${
-                    pokemonData.types[1].type.name.capitalize(Locale.getDefault())
-                }"
-            } else {
-                pokemonData.types[0].type.name.capitalize(Locale.getDefault())
-            }
+        val pokemonType = if (pokemonData.types.size > 1) {
+            "${pokemonData.types[0].type.name.capitalize(Locale.getDefault())}/${
+                pokemonData.types[1].type.name.capitalize(Locale.getDefault())
+            }"
+        } else {
+            pokemonData.types[0].type.name.capitalize(Locale.getDefault())
         }
 
         mBinding.title.text = getString(R.string.pokemon_details_fragment_pokemon_name,
-            pokemonData?.name?.capitalize(Locale.getDefault()))
-        mBinding.height.text = getString(R.string.pokemon_details_fragment_height, pokemonData?.height.toString())
-        mBinding.weight.text = getString(R.string.pokemon_details_fragment_weight, pokemonData?.weight.toString())
-        mBinding.baseXp.text = getString(R.string.pokemon_details_fragment_base_xp, pokemonData?.exp.toString())
+            pokemonData.name.capitalize(Locale.getDefault()))
+        mBinding.height.text = getString(R.string.pokemon_details_fragment_height, pokemonData.height.toString())
+        mBinding.weight.text = getString(R.string.pokemon_details_fragment_weight, pokemonData.weight.toString())
+        mBinding.baseXp.text = getString(R.string.pokemon_details_fragment_base_xp, pokemonData.exp.toString())
         mBinding.type.text = getString(R.string.pokemon_details_fragment_type, pokemonType)
         mBinding.recycler.layoutManager = LinearLayoutManager(requireContext())
-        mBinding.recycler.adapter = PokemonDetailsRecyclerAdapter(pokemonData?.moves!!)
+        mBinding.recycler.adapter = PokemonDetailsRecyclerAdapter(pokemonData.moves)
         mBinding.hpProgress.progress = pokemonData.stats[0].baseStat
         mBinding.hpValue.text = pokemonData.stats[0].baseStat.toString()
         mBinding.attackProgress.progress = pokemonData.stats[1].baseStat
@@ -96,8 +99,9 @@ class PokemonDetailsFragment : Fragment() {
         mBinding.sdefValue.text = pokemonData.stats[4].baseStat.toString()
         mBinding.speedProgress.progress = pokemonData.stats[5].baseStat
         mBinding.speedValue.text = pokemonData.stats[5].baseStat.toString()
+    }
 
-
+    private fun configureFavorite(pokemonData: PokemonDetailsResponse) {
         val prefKey = "${BaseConfig.SHARED_PREF_FAV_KEY}_${pokemonData.id}"
         val sharedPref = activity?.getSharedPreferences(prefKey, Context.MODE_PRIVATE) ?: return
         var isFavorite = sharedPref.getBoolean(prefKey, false)
@@ -121,6 +125,15 @@ class PokemonDetailsFragment : Fragment() {
                 isFavorite = true
             }
         }
+    }
+
+    private fun animateProgressBars() {
+        ViewUtil.animateProgress(mBinding.hpProgress, mBinding.hpProgress.progress)
+        ViewUtil.animateProgress(mBinding.attackProgress, mBinding.attackProgress.progress)
+        ViewUtil.animateProgress(mBinding.defenseProgress, mBinding.defenseProgress.progress)
+        ViewUtil.animateProgress(mBinding.satkProgress, mBinding.satkProgress.progress)
+        ViewUtil.animateProgress(mBinding.sdefProgress, mBinding.sdefProgress.progress)
+        ViewUtil.animateProgress(mBinding.speedProgress, mBinding.speedProgress.progress)
     }
 
     private fun configureObservables() {

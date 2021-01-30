@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.text.HtmlCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -53,7 +55,37 @@ class PokemonListFragment: Fragment() {
 
     private fun configureComponents() {
         mBinding.recycler.layoutManager = LinearLayoutManager(requireContext())
-        mBinding.recycler.adapter = PokemonListRecyclerAdapter(mViewModel.model.pokemonListOb.value!!, ::navToDetails)
+        val pokemonList = mViewModel.model.pokemonListOb.value
+        mBinding.search.queryHint = getString(R.string.pokemon_list_fragment_title)
+        mBinding.recycler.adapter = PokemonListRecyclerAdapter(::navToDetails)
+        (mBinding.recycler.adapter as PokemonListRecyclerAdapter).updateItems(pokemonList!!.result)
+
+        mBinding.search.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText != null) {
+                    if (newText.length > 1) {
+                        (mBinding.recycler.adapter as PokemonListRecyclerAdapter).filter(newText)
+                        if ((mBinding.recycler.adapter as PokemonListRecyclerAdapter).itemCount > 0) {
+                            mBinding.recycler.visibility = View.VISIBLE
+                            mBinding.notFound.visibility = View.GONE
+                        } else {
+                            mBinding.recycler.visibility = View.GONE
+                            mBinding.notFound.visibility = View.VISIBLE
+                        }
+                    } else {
+                        mBinding.recycler.visibility = View.VISIBLE
+                        mBinding.notFound.visibility = View.GONE
+                        (mBinding.recycler.adapter as PokemonListRecyclerAdapter).updateItems(pokemonList.result)
+                    }
+                }
+                return false
+            }
+
+        })
     }
 
     private fun navToDetails(id: Int) {

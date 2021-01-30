@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Pokemon Bliss</string>
     <!-- Pokemon List Fragment -->
-    <string name="pokemon_list_fragment_title">First Generation Pokémon</string>
+    <string name="pokemon_list_fragment_title">Search all 1st Gen. Pokémon</string>
+    <string name="pokemon_list_fragment_not_found">No Pokémon found.\n\nThis list contains first generation only.</string>
     <!-- Pokémon Details Fragment -->
     <string name="pokemon_details_fragment_pokemon_name">%s details</string>
     <string name="pokemon_details_fragment_height">Height: %s dm</string>

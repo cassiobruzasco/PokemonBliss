@@ -54,6 +54,10 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="Body.Medium" parent="Title">
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="Body.Small">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">12sp</item>
